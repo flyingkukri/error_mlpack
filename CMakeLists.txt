@@ -16,8 +16,15 @@ set(SOURCE_FILES src/main.cpp)
 # set executable
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+find_package(Armadillo REQUIRED)
+include_directories(${ARMADILLO_INCLUDE_DIRS})
+#add_executable(foo foo.cc)
+#target_link_libraries(foo ${ARMADILLO_LIBRARIES})
+
+add_compile_options(-O3 -std=c++14 -larmadillo -fopenmp)
+
 # Set include directories and dependencies
 target_include_directories(${PROJECT_NAME} PUBLIC ${SOURCE_FILES} ${storm_INCLUDE_DIR} ${storm-parsers_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE storm storm-parsers)
+target_link_libraries(${PROJECT_NAME} PRIVATE storm storm-parsers ${ARMADILLO_LIBRARIES})
 # Note that other libraries/includes from Storm might need to be added depending on the used functionality.
 # For example, to enable counterexamples, include directory ${storm-counterexamples_INCLUDE_DIR} and link library storm-counterexamples need to be added.
